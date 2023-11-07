@@ -1,0 +1,17 @@
+.authorization-form {
+    margin: auto;
+    width: 80%;
+
+    input, p {
+        margin: 2% 0;
+    }
+
+    button {
+        min-width: 20%;
+    }
+}
+
+.authorization-router {
+    display: flex;
+    align-items: center;
+}

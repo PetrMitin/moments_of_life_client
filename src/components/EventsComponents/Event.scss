@@ -1,0 +1,26 @@
+.event {
+    width: 80%;
+    border: 1px solid lightgray;
+    display: flex;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2%;
+    padding: 10px;
+
+    .event-body {
+        display: flex;
+        width: 100%;
+        display: flex;
+        align-items: center;
+
+        .event-info {
+            margin-left: 2%;
+            text-align: start;
+        }
+    }
+
+    .event-time {
+        text-wrap: nowrap;
+    }
+}

@@ -1,0 +1,7 @@
+.comments-list {
+    max-height: 10vh;
+}
+
+.comments-list::-webkit-scrollbar {
+    display: none;
+}

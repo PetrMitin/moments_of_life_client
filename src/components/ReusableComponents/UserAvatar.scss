@@ -1,0 +1,10 @@
+.user-avatar {
+    object-fit: cover;
+    height: 4rem;
+    width: 4rem;
+}
+
+.user-avatar.profile-avatar {
+    height: 9rem;
+    width: 9rem;
+}

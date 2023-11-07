@@ -1,0 +1,22 @@
+@mixin modal {
+        .modal-body {
+            input, textarea {
+                margin-bottom: 2%;
+            }
+
+            textarea {
+                height: auto;
+            }
+    }
+
+    .modal-footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+
+        button {
+            width: 100%;
+        }
+    }
+}

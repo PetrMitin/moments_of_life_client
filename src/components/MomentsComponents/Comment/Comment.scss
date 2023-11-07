@@ -1,0 +1,21 @@
+.comment {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .comment-content {
+        display: flex;
+        flex-direction: row;
+        text-wrap: nowrap;
+        width: 90%;
+
+        .comment-author {
+            margin-right: 1%;
+            font-weight: 650;
+        }
+
+        .comment-text-content {
+            width: 90%
+        }
+    }
+}

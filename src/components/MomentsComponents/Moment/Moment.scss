@@ -1,0 +1,35 @@
+.moment {
+    text-align: left;
+    padding: 0 15px;
+    margin-bottom: 2%;
+
+    .card-title {
+        margin-top: 1%;
+    }
+
+    .moment-header {
+        display: flex;
+        align-items: center;
+
+        .moment-header-info {
+            margin-left: 3%;
+            display: flex;
+            justify-content: center;
+
+            p, h3 {
+                text-wrap: nowrap;
+                margin: 0;
+            }
+
+            .card-subtitle {
+                font-size: larger;
+            }            
+        }
+    }
+
+    .moment-footer {
+        max-height: 7vh;
+        display: flex;
+        flex-direction: row;
+    }
+}

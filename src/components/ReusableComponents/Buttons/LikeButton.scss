@@ -1,0 +1,53 @@
+@mixin svg-hover-animation {
+    svg {
+        transition: height .3s ease-out;
+    } 
+
+    &:hover {
+        svg {
+            transition: all .3s ease-out;
+        }
+    }
+}
+
+@mixin custom-button {
+    @include svg-hover-animation;
+
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.custom-button {
+    @include custom-button;
+
+    height: 5vh;
+    width: 6.5vh;
+
+    svg {
+        height: 4vh;
+    }
+
+    &:hover {
+        svg {
+            height: 4.5vh;
+        }
+    }
+}
+
+.comment-custom-button {
+    @include custom-button;
+
+    height: 3vh;
+    width: 3vh;
+
+    svg {
+        height: 2vh;
+    }
+
+    &:hover {
+        svg {
+            height: 2.5vh;
+        }
+    }
+}
