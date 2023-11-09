@@ -1,7 +1,8 @@
 import { IUser } from "../userInterfaces"
 
 export interface AuthorizationState {
-    currentUser: IUser | null
+    currentUser: IUser | null,
+    isAuthSuccessful: boolean
 }
 
 export interface LoginData {

@@ -7,7 +7,8 @@ import { IUser, UserUpdateData } from "../../utils/interfaces/userInterfaces"
 import profileActions from "../../actions/profileActions"
 
 const initialState: AuthorizationState = {
-    currentUser: null
+    currentUser: null,
+    isAuthSuccessful: true
 }
 
 export const login = createAsyncThunk(
@@ -52,17 +53,21 @@ const authorizationSlice = createSlice({
         builder
         .addCase(login.fulfilled, (state, action) => {
             state.currentUser = action.payload
+            state.isAuthSuccessful = !!action.payload
         })
         .addCase(login.rejected, (state, action) => {
             console.log(action.error)
             state.currentUser = null
+            state.isAuthSuccessful = false
         })
         .addCase(registration.fulfilled, (state, action) => {
             state.currentUser = action.payload
+            state.isAuthSuccessful = !!state.currentUser
         })
         .addCase(registration.rejected, (state, action) => {
             console.log(action.error)
             state.currentUser = null
+            state.isAuthSuccessful = false
         })
         .addCase(logout.fulfilled, (state, action) => {
             state.currentUser = null
@@ -75,6 +80,8 @@ const authorizationSlice = createSlice({
 })
 
 export const selectCurrentUser = (state: RootState) => state.authorization.currentUser
+
+export const selectIsAuthSuccessful = (state: RootState) => state.authorization.isAuthSuccessful
 
 export const { setCurrentUser } = authorizationSlice.actions
 

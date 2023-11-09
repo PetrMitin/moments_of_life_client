@@ -5,8 +5,12 @@ import { mockUsers } from "../utils/mockData";
 class AuthorizationActions {
     async loginWithEmail(loginData: LoginData): Promise<IUser | null> {
         const user = mockUsers(1)[0]
-        localStorage.setItem('user', JSON.stringify(user))
-        return (loginData.email === 'admin' && loginData.password === 'admin') ? user : null;
+        const isSuccessfull = (loginData.email === 'admin@admin' && loginData.password === 'admin')
+        if (isSuccessfull) {
+            localStorage.setItem('user', JSON.stringify(user))
+            return user
+        }
+        return null
     }
 
     async registrateUser(registrationData: RegistrationData): Promise<IUser | null> {

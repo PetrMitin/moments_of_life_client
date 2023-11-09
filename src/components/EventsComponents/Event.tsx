@@ -9,24 +9,21 @@ import 'moment/locale/ru'
 
 const Event: FC<{ event: IEvent }> = ({ event }) => {
     let myEvent: ICommentLikeEvent | IMomentLikeEvent | ISubscriptionEvent
-    let eventText: string = 'оценил(-а) ваш'
-    let eventLink: JSX.Element
+    let eventText: string = ''
+    let eventLink: JSX.Element = <></>
     moment.locale('ru')
     const time = moment(event.creation_date).fromNow()
 
     if (event.event_type === 'like/moment') {
         myEvent = event as IMomentLikeEvent
-        eventLink = <Link to={`${RoutePaths.MOMENTS_ROUTE}/${myEvent.moment_id}`}>момент</Link>
+        eventText = `оценил(-а) ваш момент #${myEvent.moment_id}` 
     } else if (event.event_type === 'like/comment') {
         myEvent = event as ICommentLikeEvent
-        eventText = 'оценил(-а) ваш комментарий к'
-        eventLink = <Link to={`${RoutePaths.MOMENTS_ROUTE}/${myEvent.moment_id}`}>моменту</Link>
+        eventText = `оценил(-а) ваш комментарий к моменту #${myEvent.moment_id}`
     } else if (event.event_type === 'subscription') {
         myEvent = event as ISubscriptionEvent
         eventText = 'подписался(-ась) на вас!'
-        eventLink = <></>
     } else {
-        eventLink = <></>
         eventText = ''
     }
 

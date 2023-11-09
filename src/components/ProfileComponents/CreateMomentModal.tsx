@@ -10,6 +10,7 @@ const CreateMomentModal: FC<{ show: boolean, onHide: () => void}> = ({ show, onH
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
     const [image, setImage] = useState<File | null>(null)
+    const [isFormValidated, setIsFormValidated] = useState<boolean>(false)
     const currentUser = useAppSelector(selectCurrentUser)
     const dispatch = useAppDispatch()
 
@@ -26,11 +27,16 @@ const CreateMomentModal: FC<{ show: boolean, onHide: () => void}> = ({ show, onH
         setTitle('')
         setContent('')
         setImage(null)
+        setIsFormValidated(false)
     }
 
     const handleSubmit = () => {
-        if (currentUser && title && content && image) dispatch(createMoment({title, content, author: currentUser, image}))
-        onHide()
+        setIsFormValidated(true)
+        if (currentUser && title && content && image) {
+            dispatch(createMoment({title, content, author: currentUser, image}))
+            clearInputs()
+            onHide()
+        }
     }
 
     const handleCancel = () => {
@@ -40,17 +46,17 @@ const CreateMomentModal: FC<{ show: boolean, onHide: () => void}> = ({ show, onH
 
     return (
         <Modal show={show} onHide={onHide} centered>
-            <Form>
+            <Form validated={isFormValidated} noValidate>
                 <Modal.Header closeButton><h3>Новый момент</h3></Modal.Header>
                 <Modal.Body>
                     <FloatingLabel label='Заголовок'>
-                        <Form.Control type='text' placeholder='Заголовок' onChange={handleTitleChange} value={title} />
+                        <Form.Control type='text' placeholder='Заголовок' onChange={handleTitleChange} value={title} required />
                     </FloatingLabel>
                     <FloatingLabel label='Текст'>
-                        <Form.Control as='textarea' placeholder='Текст' rows={3} onChange={handleContentChange} value={content} />
+                        <Form.Control as='textarea' placeholder='Текст' rows={3} onChange={handleContentChange} value={content} required />
                     </FloatingLabel>
                     <FloatingLabel label='Фото'>
-                        <Form.Control type='file' placeholder='Фото' onChange={handleImageChange} />
+                        <Form.Control type='file' placeholder='Фото' onChange={handleImageChange} required />
                     </FloatingLabel>
                 </Modal.Body>
                 <Modal.Footer>

@@ -10,11 +10,11 @@ import ShareButton from "../../ReusableComponents/Buttons/ShareButton"
 import { useAppDispatch, useAppSelector } from "../../../store/hooks"
 import { addComment, likeMoment, unlikeMoment } from "../../../store/slises/momentsSlice"
 import { selectCurrentUser } from "../../../store/slises/authorizationSlice"
+import CreateCommentModal from "../Comment/CreateCommentModal"
 
 const Moment: FC<{ moment: IMoment }> = ({ moment }) => {
     const [showCopiedBadge, setShowCopiedBadge] = useState(false)
     const [showNewCommentForm, setShowNewCommentForm] = useState(false)
-    const [commentContent, setCommentContent] = useState('')
     const isLiked = useAppSelector((state) => state.moments.moments.find((val: IMoment) => val.id === moment.id)?.isLiked || false)
     const currentUser = useAppSelector(selectCurrentUser)
     const dispatch = useAppDispatch()
@@ -26,19 +26,6 @@ const Moment: FC<{ moment: IMoment }> = ({ moment }) => {
 
     const handleCommentButtonClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
         setShowNewCommentForm(true)
-    }
-
-    const handleCommentContentChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-        setCommentContent(e.target.value)
-    }
-
-    const handleCommentModalClose = () => setShowNewCommentForm(false)
-
-    const handleCommentSave:React.MouseEventHandler<HTMLButtonElement> = (e) => {
-        if (commentContent && currentUser) {
-            dispatch(addComment({content: commentContent, author: currentUser, moment_id: moment.id}))
-        }
-        setShowNewCommentForm(false)
     }
 
     const handleShareButtonClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
@@ -72,26 +59,10 @@ const Moment: FC<{ moment: IMoment }> = ({ moment }) => {
             </div>
             </Card.Footer>
             <CommentsList comments={moment.comments} />
-            <Modal show={showNewCommentForm} onHide={handleCommentModalClose} centered>
-                <Modal.Header closeButton>
-                    <h5>Оставьте комментарий</h5>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <FloatingLabel label='Ваш комментарий'>
-                            <Form.Control type='textarea' placeholder="Ваш комментарий" onChange={handleCommentContentChange} autoFocus />
-                        </FloatingLabel>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="primary" onClick={handleCommentSave}>
-                        Отправить
-                    </Button>
-                    <Button variant="secondary" onClick={handleCommentModalClose}>
-                        Отмена
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+            <CreateCommentModal 
+                showNewCommentForm={showNewCommentForm} 
+                setShowNewCommentForm={setShowNewCommentForm} 
+                moment_id={moment.id} />
         </Card>
     )
 }

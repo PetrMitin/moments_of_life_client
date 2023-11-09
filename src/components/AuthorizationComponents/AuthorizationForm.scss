@@ -3,11 +3,17 @@
     width: 80%;
 
     input, p {
-        margin: 2% 0;
+        margin: 1% 0;
     }
 
     button {
         min-width: 20%;
+        margin-top: 1%;
+    }
+
+    .auth-error-message {
+        color: red;
+        padding-bottom: 2%;
     }
 }
 
