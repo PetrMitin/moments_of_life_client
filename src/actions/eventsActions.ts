@@ -3,8 +3,8 @@ import { IProfile } from "../utils/interfaces/userInterfaces";
 import { mockEvents } from "../utils/mockData";
 
 class EventsActions {
-    async getEvents(user: IProfile) {
-        const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/events`, {
+    async getEvents(user: IProfile, page: number) {
+        const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/events/?page=${page}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

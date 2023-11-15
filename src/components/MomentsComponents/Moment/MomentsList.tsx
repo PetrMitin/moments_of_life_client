@@ -8,8 +8,9 @@ import { useInView } from "react-intersection-observer";
 const MomentsList: FC = () => {
     const moments = useAppSelector(selectMoments)
     const dispatch = useAppDispatch()
+    const loadingStatus = useAppSelector(state => state.moments.status)
     const { ref, inView } = useInView({
-        threshold: .5
+        threshold: .01
     })
 
     useEffect(() => {
@@ -32,8 +33,10 @@ const MomentsList: FC = () => {
         <>
         <div className="moments-list">
             {moments.map(moment => <Moment key={moment.id} moment={moment} />)}
+            {loadingStatus === 'loading' && <h2>Loading...</h2>}
+            {loadingStatus === 'failed' && <h2>Не удалось загрузить Ваши моменты...</h2>}
         </div>
-        <div className="lower-bound" style={{height: '100px', zIndex: -100, position: 'absolute' }} ref={ref}></div>
+        <div className="lower-bound" style={{height: '1000px', zIndex: -100, position: 'absolute' }} ref={ref}></div>
         </>
     )
 }

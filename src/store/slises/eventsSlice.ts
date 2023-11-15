@@ -6,15 +6,18 @@ import { IEvent } from "../../utils/interfaces/eventsInterfaces";
 
 const initialState: EventsState = {
     events: [],
-    status: 'idle'
+    status: 'idle',
+    currentPage: 1
 }
 
 export const getEvents = createAsyncThunk<IEvent[], void, {state: RootState}>(
     'events/getEvents',
     async (_, { getState }) => {
-        const currentUser = getState().authorization.currentUser
+        const state = getState()
+        const currentUser = state.authorization.currentUser
+        const currentPage = state.events.currentPage
         if (currentUser) {
-            const events = await eventsActions.getEvents(currentUser)
+            const events = await eventsActions.getEvents(currentUser, currentPage)
             return events
         }
         return []
