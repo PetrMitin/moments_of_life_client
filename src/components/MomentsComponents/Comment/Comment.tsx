@@ -23,7 +23,7 @@ const Comment: FC<{ comment: IComment }> = ({ comment }) => {
         <div className="comment">
             <div className="comment-content">
                 <div className="comment-author">
-                    <Link to={`${RoutePaths.PROFILE_ROUTE}/${comment.author.id}`}>{comment.author.username}</Link>
+                    <Link to={`${RoutePaths.PROFILE_ROUTE}/${comment.author.id}`}>{comment.author.user.username}</Link>
                 </div>
                 <div className="comment-text-content">{comment.content}</div>
             </div>

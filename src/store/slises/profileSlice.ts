@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import profileActions from "../../actions/profileActions";
-import { IUser, UserUpdateData } from "../../utils/interfaces/userInterfaces";
+import { IProfile, ProfileUpdateData } from "../../utils/interfaces/userInterfaces";
 import { ProfileState } from "../../utils/interfaces/sliceInterfaces/profileSliceInterfaces";
 import { setCurrentUser } from "./authorizationSlice";
 import { IMoment } from "../../utils/interfaces/momentsInterfaces";
@@ -15,10 +15,10 @@ const initialState: ProfileState = {
     isSubscribed: false
 }
 
-export const getUserData = createAsyncThunk<{user: IUser | null, isSubscribed: boolean}, string | undefined, {state: RootState}>(
+export const getUserData = createAsyncThunk<{user: IProfile | null, isSubscribed: boolean}, string | undefined, {state: RootState}>(
     'profile/getUser',
     async (id, {getState}) => {
-        let user: IUser | null = getState().authorization.currentUser
+        let user: IProfile | null = getState().authorization.currentUser
         let isSubscribed = false
         if (id) {
             const {userData, isSubscribedFlag} = await profileActions.getUserDataById(id)
@@ -31,7 +31,7 @@ export const getUserData = createAsyncThunk<{user: IUser | null, isSubscribed: b
 
 export const updateProfile = createAsyncThunk(
     'profile/update',
-    async (updateProfileData: UserUpdateData, { dispatch }) => {
+    async (updateProfileData: ProfileUpdateData, { dispatch }) => {
         const updatedUser = await profileActions.updateProfileData(updateProfileData)
         dispatch(setCurrentUser(updatedUser || undefined))
         return updatedUser
@@ -41,7 +41,7 @@ export const updateProfile = createAsyncThunk(
 export const getUserMoments = createAsyncThunk<{
         moments: IMoment[],
         numberOfPages: number,
-    }, IUser | null, {state: RootState}>(
+    }, IProfile | null, {state: RootState}>(
     'profile/getMoments',
     async (user, { getState }) => {
         const state = getState()

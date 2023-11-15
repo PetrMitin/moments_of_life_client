@@ -12,11 +12,14 @@ const EventsList: FC = () => {
         dispatch(getEvents())
     }, [dispatch])
 
+    console.log(events);
+    
+
     return (
         <>
         <div className="events-list">
             <h1>Ваши события</h1>
-            {events.map(event => <Event key={event.id} event={event} />)}
+            {events.map(event => <Event key={event.id.toString() + event.event_type} event={event} />)}
         </div>
         </>
     )

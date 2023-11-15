@@ -1,18 +1,23 @@
 export interface IUser {
-    id: string,
+    id: number,
     email: string,
     username: string,
     password: string,
-    avatar: string,
-    registration_date: string,
-    rating: number,
-    number_of_moments: number,
-    number_of_followers: number,
-    number_of_following: number
 }
 
-export interface UserUpdateData {
-    id: string,
+export interface IProfile {
+    id: number,
+    avatar: string,
+    user: IUser,
+    rating: number,
+    number_of_moments: number,
+    number_of_subscribers: number,
+    number_of_subscriptions: number,
+    registration_date: string
+}
+
+export interface ProfileUpdateData {
+    id: number,
     email: string,
     username: string,
     password: string,

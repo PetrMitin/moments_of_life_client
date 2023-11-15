@@ -1,21 +1,22 @@
-import { IUser } from "./userInterfaces";
+import { IComment } from "./commentInterfaces";
+import { IMoment } from "./momentsInterfaces";
+import { IProfile } from "./userInterfaces";
 
 export interface IEvent {
-    id: string,
-    emited_by: IUser,
+    id: number,
+    author: IProfile,
     creation_date: string,
     event_type: 'like/moment' | 'like/comment' | 'subscription'
 }
 
 export interface IMomentLikeEvent extends IEvent {
     event_type: 'like/moment',
-    moment_id: string
+    moment: IMoment
 }
 
 export interface ICommentLikeEvent extends IEvent {
     event_type: 'like/comment',
-    comment_id: string,
-    moment_id: string
+    comment: IComment,
 }
 
 export interface ISubscriptionEvent extends IEvent {

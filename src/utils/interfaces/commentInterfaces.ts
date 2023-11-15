@@ -1,30 +1,30 @@
-import { IUser } from "./userInterfaces"
+import { IProfile } from "./userInterfaces"
 
 export interface IComment {
-    id: string,
+    id: number,
     content: string,
-    author: IUser,
-    moment_id: string,
+    author: IProfile,
+    moment_id: number,
     creation_date: string,
     isLiked: boolean
 }
 
 export interface ICommentLike {
-    id: string,
-    comment_id: string,
-    author_id: string,
-    moment_id: string,
+    id: number,
+    comment_id: number,
+    author_id: number,
+    moment_id: number,
     creation_date: string
 }
 
 export interface CommentCreationData {
     content: string,
-    author: IUser,
-    moment_id: string
+    author: IProfile,
+    moment_id: number
 }
 
 export interface CommentLikeCreationData {
     comment: IComment,
-    author_id: string,
-    moment_id: string
+    author_id: number,
+    moment_id: number
 }

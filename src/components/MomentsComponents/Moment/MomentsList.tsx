@@ -21,7 +21,9 @@ const MomentsList: FC = () => {
 
     useEffect(() => {
         if (inView) {
-            dispatch(setCurrentPage())
+            if (moments.length) {
+                dispatch(setCurrentPage())
+            }
             dispatch(getMoments())
         }
     }, [inView, dispatch])
@@ -31,7 +33,7 @@ const MomentsList: FC = () => {
         <div className="moments-list">
             {moments.map(moment => <Moment key={moment.id} moment={moment} />)}
         </div>
-        <div className="lower-bound" style={{height: '10px'}} ref={ref}></div>
+        <div className="lower-bound" style={{height: '100px', zIndex: -100, position: 'absolute' }} ref={ref}></div>
         </>
     )
 }

@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { IUser } from "../../utils/interfaces/userInterfaces";
+import { IProfile } from "../../utils/interfaces/userInterfaces";
 import SearchMomentsResults from "../SearchComponents/SearchMomentsResults";
 import '../SearchComponents/SearchResults.scss'
 import ProfileControls from "./ProfileControls";
@@ -9,9 +9,11 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { getUserMoments, selectUserMoments } from "../../store/slises/profileSlice";
 import SubscriptionControlButton from "./SubscriptionControlButton";
 
-const UserProfile: FC<{ user: IUser, variant: 'owner' | 'guest' }> = ({ user, variant }) => {
+const UserProfile: FC<{ user: IProfile, variant: 'owner' | 'guest' }> = ({ user, variant }) => {
     const userMoments = useAppSelector(selectUserMoments)
     const dispatch = useAppDispatch()
+    console.log(user);
+    
 
     useEffect(() => {
         dispatch(getUserMoments(user))
@@ -22,7 +24,7 @@ const UserProfile: FC<{ user: IUser, variant: 'owner' | 'guest' }> = ({ user, va
             <div className="profile-header">
                 <UserAvatar avatar={user.avatar} variant='profile-avatar' />
                 <div className="profile-username-and-controls">
-                    <h1>{user.username}</h1>
+                    <h1>{user.user.username}</h1>
                     { variant === 'owner' 
                     ? <ProfileControls /> 
                     : <SubscriptionControlButton /> }
@@ -38,11 +40,11 @@ const UserProfile: FC<{ user: IUser, variant: 'owner' | 'guest' }> = ({ user, va
                     <span>моментов</span>
                 </div>
                 <div className="profile-stat">
-                    {user.number_of_followers}<br/>
+                    {user.number_of_subscribers}<br/>
                     <span>подписчиков</span>
                 </div>
                 <div className="profile-stat">
-                    {user.number_of_following}<br/>
+                    {user.number_of_subscriptions}<br/>
                     <span>подписок</span>
                 </div>
             </div>

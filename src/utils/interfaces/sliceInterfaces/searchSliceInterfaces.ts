@@ -1,13 +1,13 @@
 import { IMoment } from "../momentsInterfaces"
-import { IUser } from "../userInterfaces"
+import { IProfile } from "../userInterfaces"
 
 export interface ISearchResults {
-    users: IUser[],
+    users: IProfile[],
     moments: IMoment[]
 }
 
 export interface SearchState {
     moments: IMoment[],
-    users: IUser[],
+    users: IProfile[],
     status: 'loading' | 'idle' | 'error'
 }

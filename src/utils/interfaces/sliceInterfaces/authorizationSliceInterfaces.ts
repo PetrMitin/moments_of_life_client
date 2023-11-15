@@ -1,7 +1,7 @@
-import { IUser } from "../userInterfaces"
+import { IProfile } from "../userInterfaces"
 
 export interface AuthorizationState {
-    currentUser: IUser | null,
+    currentUser: IProfile | null,
     isAuthSuccessful: boolean
 }
 

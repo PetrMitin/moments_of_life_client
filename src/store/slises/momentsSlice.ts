@@ -9,24 +9,20 @@ import { setUserMoments } from "./profileSlice"
 
 const initialState: MomentsState = {
     moments: [],
-    numberOfPages: 0,
     currentPage: 1,
     status: 'idle'
 }
 
 export const selectMoments = (state: RootState) => state.moments.moments
 
-export const getMoments = createAsyncThunk<{
-    moments: IMoment[],
-    numberOfPages: number,
-}, void, {state: RootState}>(
+export const getMoments = createAsyncThunk<IMoment[], void, {state: RootState}>(
     'moments/getMoments', 
     async (_, { getState }) => {
         const state = getState()
         const user = state.authorization.currentUser
         const momentsData = user 
                             ? await momentsActions.getMomentsByPage(state.moments.currentPage, user) 
-                            : {moments: [], numberOfPages: 0} 
+                            : []
         return momentsData
     }
 )
@@ -99,8 +95,7 @@ const momentsSlice = createSlice({
         })
         .addCase(getMoments.fulfilled, (state, action) => {
             state.status = 'idle'
-            state.moments = [...state.moments, ...action.payload.moments]
-            state.numberOfPages = action.payload.numberOfPages
+            state.moments = [...state.moments, ...action.payload]
         })
         .addCase(getMoments.rejected, (state, action) => {
             state.status = 'failed'

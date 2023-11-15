@@ -1,9 +1,9 @@
 import { LoginData, RegistrationData } from "../utils/interfaces/sliceInterfaces/authorizationSliceInterfaces";
-import { IUser } from "../utils/interfaces/userInterfaces";
+import { IProfile } from "../utils/interfaces/userInterfaces";
 import { mockUsers } from "../utils/mockData";
 
 class AuthorizationActions {
-    async loginWithEmail(loginData: LoginData): Promise<IUser | null> {
+    async loginWithEmail(loginData: LoginData): Promise<IProfile | null> {
         const user = mockUsers(1)[0]
         const isSuccessfull = (loginData.email === 'admin@admin' && loginData.password === 'admin')
         if (isSuccessfull) {
@@ -13,7 +13,7 @@ class AuthorizationActions {
         return null
     }
 
-    async registrateUser(registrationData: RegistrationData): Promise<IUser | null> {
+    async registrateUser(registrationData: RegistrationData): Promise<IProfile | null> {
         const user = mockUsers(1)[0]
         localStorage.setItem('user', JSON.stringify(user))
         return !!(registrationData.email && registrationData.username && registrationData.password) ? user : null;

@@ -1,11 +1,11 @@
 import { FC } from "react";
 import { Image } from 'react-bootstrap'
-import { IUser } from "../../utils/interfaces/userInterfaces";
+import { IProfile } from "../../utils/interfaces/userInterfaces";
 import ProfileFilledIcon from "../ReusableComponents/Icons/ProfileFiiledIcon";
 import { Link } from "react-router-dom";
 import { RoutePaths } from "../../utils/consts/routeConsts";
 
-const UserSearchResult: FC<{ user: IUser }> = ({ user }) => {
+const UserSearchResult: FC<{ user: IProfile }> = ({ user }) => {
     return (
         <div className="search-result">
              <Link to={`${RoutePaths.PROFILE_ROUTE}/${user.id}`}>

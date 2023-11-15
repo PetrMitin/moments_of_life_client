@@ -8,7 +8,7 @@ import { selectCurrentUser } from "../../../store/slises/authorizationSlice";
 interface props {
     showNewCommentForm: boolean, 
     setShowNewCommentForm: Dispatch<React.SetStateAction<boolean>>,
-    moment_id: string
+    moment_id: number
 }
 
 const CreateCommentModal: FC<props> = ({showNewCommentForm, setShowNewCommentForm, moment_id}) => {

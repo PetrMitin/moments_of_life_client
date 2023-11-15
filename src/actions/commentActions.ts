@@ -1,12 +1,12 @@
 import { CommentCreationData, CommentLikeCreationData, IComment, ICommentLike } from "../utils/interfaces/commentInterfaces";
 import { IMoment } from "../utils/interfaces/momentsInterfaces";
-import { IUser } from "../utils/interfaces/userInterfaces";
+import { IProfile } from "../utils/interfaces/userInterfaces";
 
 class CommentsActions {
     async addComment(commentCreationData: CommentCreationData): Promise<IComment | null> {
         const { author, moment_id, content } = commentCreationData
         const newComment: IComment = {
-            id: Math.random().toString(),
+            id: Math.random(),
             content,
             author: author,
             moment_id,
@@ -19,7 +19,7 @@ class CommentsActions {
     async likeComment(commentLikeCreationData: CommentLikeCreationData): Promise<ICommentLike | null> {
         const { comment, author_id } = commentLikeCreationData
         const newCommentLike: ICommentLike = {
-            id: Math.random().toString(),
+            id: Math.random(),
             comment_id: comment.id,
             author_id: author_id,
             moment_id: comment.moment_id,
@@ -31,7 +31,7 @@ class CommentsActions {
     async unlikeComment(likeData: CommentLikeCreationData): Promise<ICommentLike | null> {
         const { comment, author_id } = likeData
         return {
-            id: Math.random().toString(),
+            id: Math.random(),
             comment_id: comment.id,
             author_id: author_id,
             moment_id: comment.moment_id,

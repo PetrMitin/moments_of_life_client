@@ -7,8 +7,8 @@ import { updateProfile } from "../../store/slises/profileSlice";
 
 const EditProfileModal: FC<{ show: boolean, onHide: () => void }> = ({ show, onHide }) => {
     const currentUser = useAppSelector(selectCurrentUser)
-    const [username, setUsername] = useState(currentUser?.username || '')
-    const [email, setEmail] = useState(currentUser?.email || '')
+    const [username, setUsername] = useState(currentUser?.user.username || '')
+    const [email, setEmail] = useState(currentUser?.user.email || '')
     const [avatar, setAvatar] = useState<File | null>(null)
     const [password, setPassword] = useState('')
     const dispatch = useAppDispatch()
@@ -25,8 +25,8 @@ const EditProfileModal: FC<{ show: boolean, onHide: () => void }> = ({ show, onH
     const handlePasswordChange: React.ChangeEventHandler<HTMLInputElement> = (e) => setPassword(e.target.value)
 
     const setDefaultValues = () => {
-        setUsername(currentUser?.username || '')
-        setEmail(currentUser?.email || '')
+        setUsername(currentUser?.user.username || '')
+        setEmail(currentUser?.user.email || '')
         setAvatar(null)
         setPassword('')
     }

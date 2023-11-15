@@ -3,9 +3,14 @@ import { FloatingLabel, Form } from "react-bootstrap";
 
 const SearchBar: FC<{ setQuery: React.Dispatch<React.SetStateAction<string>> }> = ({ setQuery }) => {
     const [queryInput, setQueryInput] = useState('')
+    const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(null)
 
     const handleQueryInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-        setQueryInput(e.target.value)
+        if (searchTimeout) {
+            clearTimeout(searchTimeout)
+            setSearchTimeout(null)
+        }
+        setSearchTimeout(setTimeout(() => setQueryInput(e.target.value), 750))
     }
 
     useEffect(() => {

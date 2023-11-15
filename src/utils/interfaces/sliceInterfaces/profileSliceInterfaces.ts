@@ -1,8 +1,8 @@
 import { IMoment } from "../momentsInterfaces";
-import { IUser } from "../userInterfaces";
+import { IProfile } from "../userInterfaces";
 
 export interface ProfileState {
-    profileUser: IUser | null,
+    profileUser: IProfile | null,
     userMoments: IMoment[],
     currentPage: number,
     numberOfPages: number,

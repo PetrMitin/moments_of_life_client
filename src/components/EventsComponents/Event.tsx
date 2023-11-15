@@ -16,10 +16,10 @@ const Event: FC<{ event: IEvent }> = ({ event }) => {
 
     if (event.event_type === 'like/moment') {
         myEvent = event as IMomentLikeEvent
-        eventText = `оценил(-а) ваш момент #${myEvent.moment_id}` 
+        eventText = `оценил(-а) ваш момент #${myEvent.moment.id}` 
     } else if (event.event_type === 'like/comment') {
         myEvent = event as ICommentLikeEvent
-        eventText = `оценил(-а) ваш комментарий к моменту #${myEvent.moment_id}`
+        eventText = `оценил(-а) ваш комментарий #${myEvent.comment.id}`
     } else if (event.event_type === 'subscription') {
         myEvent = event as ISubscriptionEvent
         eventText = 'подписался(-ась) на вас!'
@@ -30,10 +30,10 @@ const Event: FC<{ event: IEvent }> = ({ event }) => {
     return (
         <div className="event">
             <div className="event-body">
-                <UserAvatar avatar={event.emited_by.avatar} />
+                <UserAvatar avatar={event.author.avatar} />
                 <div className="event-info">
-                    <Link to={`${RoutePaths.PROFILE_ROUTE}/${event.emited_by.id}`}>
-                        {event.emited_by.username}
+                    <Link to={`${RoutePaths.PROFILE_ROUTE}/${event.author.id}`}>
+                        {event.author.user.username}
                     </Link> 
                     <br/>
                     {` ${eventText} `} {eventLink} 

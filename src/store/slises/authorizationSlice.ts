@@ -3,7 +3,7 @@ import { AuthorizationState, LoginData, RegistrationData } from "../../utils/int
 import authorizationActions from "../../actions/authorizationActions"
 import { RootState } from "../store"
 import { useNavigate } from "react-router-dom"
-import { IUser, UserUpdateData } from "../../utils/interfaces/userInterfaces"
+import { IProfile, ProfileUpdateData } from "../../utils/interfaces/userInterfaces"
 import profileActions from "../../actions/profileActions"
 
 const initialState: AuthorizationState = {
@@ -39,7 +39,7 @@ const authorizationSlice = createSlice({
     name: 'authorization',
     initialState,
     reducers: {
-        setCurrentUser: (state, action: PayloadAction<IUser | undefined>) => {
+        setCurrentUser: (state, action: PayloadAction<IProfile | undefined>) => {
             const user = action.payload
             if (!user) { 
                 state.currentUser = null
