@@ -1,5 +1,5 @@
 import { IMoment, IMomentLike, MomentCreationData, MomentLikeCreationData } from "../utils/interfaces/momentsInterfaces";
-import { IProfile } from "../utils/interfaces/userInterfaces";
+import { IProfile, isIProfile } from "../utils/interfaces/userInterfaces";
 import { mockMomentLikes, mockMoments, mockUsers } from "../utils/mockData";
 
 class MomentsActions {
@@ -36,16 +36,27 @@ class MomentsActions {
     }
 
     async createMoment(momentCreationData: MomentCreationData): Promise<IMoment | null> {
-        const newMoment: IMoment = {
-            ...momentCreationData,
-            image: 'https://c4.wallpaperflare.com/wallpaper/482/480/58/beautyful-scenery-wallpaper-preview.jpg',
-            id: Math.random(),
-            creation_date: (new Date()).toLocaleTimeString(),
-            comments: [],
-            tags: [],
-            isLiked: false
+        const momentCreationFormData: FormData = new FormData()
+        let key: keyof MomentCreationData
+        for (key in momentCreationData) {
+            let val = momentCreationData[key]
+            momentCreationFormData.append(key, typeof val == 'object' && !(val instanceof File)  ? JSON.stringify(val) : val)
         }
-        return newMoment
+        console.log(momentCreationFormData);
+        
+        const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/moments/create`, {
+            method: 'POST',
+            headers: {
+                //'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: momentCreationFormData
+        })
+        if (res.ok) {
+            const data = await res.json()
+            console.log(data)
+            return null
+        }
+        return null
     }
 }
 

@@ -23,3 +23,7 @@ export interface ProfileUpdateData {
     password: string,
     avatar: File | null
 }
+
+export const isIProfile = (obj: any) : obj is IProfile => {
+    return 'id' in obj && 'user' in obj
+}

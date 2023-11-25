@@ -4,16 +4,18 @@ import { IProfile } from "../utils/interfaces/userInterfaces";
 
 class CommentsActions {
     async addComment(commentCreationData: CommentCreationData): Promise<IComment | null> {
-        const { author, moment_id, content } = commentCreationData
-        const newComment: IComment = {
-            id: Math.random(),
-            content,
-            author: author,
-            moment_id,
-            creation_date: (new Date()).toLocaleTimeString(),
-            isLiked: false
+        const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/comments/create`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(commentCreationData)
+        })
+        if (res.ok) {
+            const comment = await res.json()
+            return comment
         }
-        return newComment
+        return null
     }
 
     async likeComment(commentLikeCreationData: CommentLikeCreationData): Promise<ICommentLike | null> {

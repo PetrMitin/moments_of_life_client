@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { EventsState } from "../../utils/interfaces/sliceInterfaces/eventsSliceInterfaces";
 import eventsActions from "../../actions/eventsActions";
 import { RootState } from "../store";
@@ -27,7 +27,15 @@ export const getEvents = createAsyncThunk<IEvent[], void, {state: RootState}>(
 const eventsSlice = createSlice({
     name: 'events',
     initialState,
-    reducers: {},
+    reducers: {
+        setCurrentPage: (state, action: PayloadAction<number | undefined>) => {
+            const currPage = state.currentPage
+            state.currentPage = action.payload ? action.payload : currPage + 1
+        },
+        setEvents: (state, action: PayloadAction<IEvent[]>) => {
+            state.events = action.payload
+        }
+    },
     extraReducers: (builder) => {
         builder
         .addCase(getEvents.pending, (state) => {
@@ -35,7 +43,10 @@ const eventsSlice = createSlice({
         })
         .addCase(getEvents.fulfilled, (state, action) => {
             state.status = 'idle'
-            state.events = action.payload
+            if (state.currentPage === 1) 
+                state.events = action.payload
+            else 
+                state.events = [...state.events, ...action.payload]
         })
         .addCase(getEvents.rejected, (state, action) => {
             state.status = 'failed'
@@ -46,5 +57,7 @@ const eventsSlice = createSlice({
 })
 
 export const selectEvents = (state: RootState) => state.events.events
+
+export const { setCurrentPage, setEvents } = eventsSlice.actions
 
 export const eventsReducer = eventsSlice.reducer
