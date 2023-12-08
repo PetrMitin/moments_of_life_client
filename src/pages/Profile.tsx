@@ -12,7 +12,7 @@ const Profile: FC = () => {
     const dispatch = useAppDispatch()
    
     useEffect(() => {
-        dispatch(getUserData(id))
+        dispatch(getUserData(parseInt(id || '')))
     }, [dispatch])
 
         return currentUser ? (

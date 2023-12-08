@@ -9,6 +9,9 @@ class SearchActions {
     async searchByTextQuery(query: string): Promise<ISearchResults> {
         let users: IProfile[] = []
         let moments: IMoment[] = []
+        query = query.replaceAll('#', '%23')
+        console.log(query);
+
         if (!query) {
             return {
                 users,
@@ -16,7 +19,7 @@ class SearchActions {
             }
         }
 
-        const profileRes = await fetch(`${process.env.REACT_APP_SERVER_URL}/profile/search/${query}`, {
+        const profileRes = await fetch(`${process.env.REACT_APP_SERVER_URL}/profile/search/?query=${query}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -27,7 +30,7 @@ class SearchActions {
             console.log(users)
         }
 
-        const momentRes = await fetch(`${process.env.REACT_APP_SERVER_URL}/moments/search/${query}`, {
+        const momentRes = await fetch(`${process.env.REACT_APP_SERVER_URL}/moments/search/?query=${query}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

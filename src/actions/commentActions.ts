@@ -19,26 +19,46 @@ class CommentsActions {
     }
 
     async likeComment(commentLikeCreationData: CommentLikeCreationData): Promise<ICommentLike | null> {
-        const { comment, author_id } = commentLikeCreationData
-        const newCommentLike: ICommentLike = {
-            id: Math.random(),
-            comment_id: comment.id,
-            author_id: author_id,
-            moment_id: comment.moment_id,
-            creation_date: (new Date()).toLocaleTimeString()
+        const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/comments/like`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                comment_id: commentLikeCreationData.comment.id, 
+                author_id: commentLikeCreationData.author_id
+            })
+        })
+        if (res.ok) {
+            const like = await res.json()
+            console.log(like)
+            return {
+                id: like.id, 
+                comment_id: like.comment.id, 
+                author_id: like.author.id, 
+                creation_date: like.creation_date, 
+                moment_id: like.comment.moment.id
+            }
         }
-        return newCommentLike
+        return null
     }
 
-    async unlikeComment(likeData: CommentLikeCreationData): Promise<ICommentLike | null> {
-        const { comment, author_id } = likeData
-        return {
-            id: Math.random(),
-            comment_id: comment.id,
-            author_id: author_id,
-            moment_id: comment.moment_id,
-            creation_date: (new Date()).toLocaleTimeString()
+    async unlikeComment(commentLikeCreationData: CommentLikeCreationData): Promise<CommentLikeCreationData | null> {
+        const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/comments/unlike`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                comment_id: commentLikeCreationData.comment.id, 
+                author_id: commentLikeCreationData.author_id
+            })
+        })
+        if (res.ok) {
+            const deletionData = await res.json()
+            return deletionData.successful ? commentLikeCreationData : null
         }
+        return null
     }
 }
 

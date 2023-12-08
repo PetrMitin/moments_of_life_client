@@ -15,7 +15,7 @@ const initialState: ProfileState = {
     isSubscribed: false
 }
 
-export const getUserData = createAsyncThunk<{user: IProfile | null, isSubscribed: boolean}, string | undefined, {state: RootState}>(
+export const getUserData = createAsyncThunk<{user: IProfile | null, isSubscribed: boolean}, number | undefined, {state: RootState}>(
     'profile/getUser',
     async (id, {getState}) => {
         let user: IProfile | null = getState().authorization.currentUser

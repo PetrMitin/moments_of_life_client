@@ -114,7 +114,7 @@ const momentsSlice = createSlice({
             if (like) {
                 const idx = state.moments.findIndex(moment => moment.id === like.moment_id)
                 if (idx !== -1)
-                    state.moments[idx].isLiked = true
+                    state.moments[idx].is_liked = true
             }
         })
         .addCase(likeMoment.rejected, (state, action) => {
@@ -123,9 +123,9 @@ const momentsSlice = createSlice({
         .addCase(unlikeMoment.fulfilled, (state, action) => {
             const like = action.payload
             if (like) {
-                const idx = state.moments.findIndex(moment => moment.id === like.moment_id)
+                const idx = state.moments.findIndex(moment => moment.id === like.moment.id)
                 if (idx !== -1)
-                    state.moments[idx].isLiked = false
+                    state.moments[idx].is_liked = false
             }
         })
         .addCase(unlikeMoment.rejected, (state, action) => {
@@ -135,6 +135,7 @@ const momentsSlice = createSlice({
             const comment = action.payload
             if (comment) {
                 const idx = state.moments.findIndex(moment => moment.id === comment.moment_id)
+                console.log(comment, idx);
                 if (idx !== -1)
                     state.moments[idx].comments.unshift(comment)
             }
@@ -149,7 +150,7 @@ const momentsSlice = createSlice({
                 if (momentIdx !== -1) {
                     const commentIdx = state.moments[momentIdx].comments.findIndex(comment => comment.id === like.comment_id)
                     if (commentIdx !== -1) {
-                        state.moments[momentIdx].comments[commentIdx].isLiked = true
+                        state.moments[momentIdx].comments[commentIdx].is_liked = true
                     }
                 }
             }
@@ -162,9 +163,9 @@ const momentsSlice = createSlice({
             if (like) {
                 const momentIdx = state.moments.findIndex(moment => moment.id === like.moment_id)
                 if (momentIdx !== -1) {
-                    const commentIdx = state.moments[momentIdx].comments.findIndex(comment => comment.id === like.comment_id)
+                    const commentIdx = state.moments[momentIdx].comments.findIndex(comment => comment.id === like.comment.id)
                     if (commentIdx !== -1) {
-                        state.moments[momentIdx].comments[commentIdx].isLiked = false
+                        state.moments[momentIdx].comments[commentIdx].is_liked = false
                     }
                 }
             }

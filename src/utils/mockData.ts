@@ -18,7 +18,7 @@ export const mockMoments = (amount: number, users: IProfile[]): IMoment[] => {
             image: 'https://img.freepik.com/free-photo/beautiful-butterfly-in-nature_23-2150445576.jpg',
             comments: [],
             tags: [],
-            isLiked: false
+            is_liked: false
         }
         newMoment.comments = mockComments(15, newMoment.id, users[Math.floor(Math.random() * users.length)])
         newMoment.tags = mockTags(10, newMoment.id)
@@ -31,9 +31,9 @@ export const mockUsers = (amount: number): IProfile[] => {
     const users: IProfile[] = []
     for (let i = 0; i < amount; ++i) {
         const newUser: IProfile = {
-            id: i,
+            id: 171326,
             user: {
-                id: i,
+                id: 181330,
                 email: `xmpl${i}@mail.ru`,
                 username: `username${i}`,
                 password: 'asdasd',
@@ -59,7 +59,7 @@ export const mockComments = (amount: number, moment_id: number, author: IProfile
             author: author,
             moment_id,
             creation_date: (new Date()).toUTCString(),
-            isLiked: false
+            is_liked: false
         }
         newComments.push(newComment)
     }

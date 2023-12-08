@@ -6,7 +6,7 @@ export interface IComment {
     author: IProfile,
     moment_id: number,
     creation_date: string,
-    isLiked: boolean
+    is_liked: boolean
 }
 
 export interface ICommentLike {

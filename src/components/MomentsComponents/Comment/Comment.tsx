@@ -10,13 +10,17 @@ import { RoutePaths } from "../../../utils/consts/routeConsts";
 const Comment: FC<{ comment: IComment }> = ({ comment }) => {
     const currentUser = useAppSelector(state => state.authorization.currentUser)
     const dispatch = useAppDispatch()
-    const isLiked = useAppSelector(state => state.moments.moments.find(moment => moment.id === comment.moment_id)?.comments.find(val => val.id === comment.id)?.isLiked || false)
+    const [isLiked, setIsLiked] = useState(comment.is_liked)
 
     const handleLikeButtonClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
-        if (currentUser)
-            dispatch(isLiked 
-                    ? unlikeComment({comment, moment_id: comment.moment_id, author_id: currentUser.id})
-                    : likeComment({comment, moment_id: comment.moment_id, author_id: currentUser.id}))
+        if (currentUser) {
+            if (isLiked) {
+                dispatch(unlikeComment({comment, moment_id: comment.moment_id, author_id: currentUser.id}))
+            } else {
+                dispatch(likeComment({comment, moment_id: comment.moment_id, author_id: currentUser.id}))
+            }
+            setIsLiked(prev => !prev)
+        }
     }
 
     return (

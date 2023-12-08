@@ -16,7 +16,7 @@ export interface IMoment {
     image: string
     comments: IComment[],
     tags: ITag[],
-    isLiked: boolean
+    is_liked: boolean
 }
 
 export interface MomentCreationData {

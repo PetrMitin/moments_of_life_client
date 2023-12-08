@@ -25,14 +25,40 @@ class MomentsActions {
     }
 
     async likeMoment(momentLikeCreationData: MomentLikeCreationData): Promise<IMomentLike | null> {
-        const { moment, author } = momentLikeCreationData
-        const newLike: IMomentLike = mockMomentLikes(1, moment, author)[0]
-        return newLike
+        const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/moments/like`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                moment_id: momentLikeCreationData.moment.id, 
+                author_id: momentLikeCreationData.author.id
+            })
+        })
+        if (res.ok) {
+            const like = await res.json()
+            console.log(like)
+            return {id: like.id, moment_id: like.moment.id, author_id: like.author.id, creation_date: like.creation_date}
+        }
+        return null
     }
 
-    async unlikeMoment(like: MomentLikeCreationData): Promise<IMomentLike | null> {
-        const { moment, author } = like
-        return mockMomentLikes(1, moment, author)[0]
+    async unlikeMoment(momentLikeCreationData: MomentLikeCreationData): Promise<MomentLikeCreationData | null> {
+        const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/moments/unlike`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                moment_id: momentLikeCreationData.moment.id, 
+                author_id: momentLikeCreationData.author.id
+            })
+        })
+        if (res.ok) {
+            const deletionData = await res.json()
+            return deletionData.successful ? momentLikeCreationData : null
+        }
+        return null
     }
 
     async createMoment(momentCreationData: MomentCreationData): Promise<IMoment | null> {

@@ -13,7 +13,7 @@ class ProfileActions {
     }
 
     async getUserMoments(page: number, user: IProfile): Promise<{ moments: IMoment[], numberOfPages: number }> {
-        const test_user_id = 21326
+        const test_user_id = 171332
         const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/profile/${test_user_id}/moments?page=${page}`, {
             method: 'GET',
             headers: {
@@ -29,28 +29,56 @@ class ProfileActions {
         return {moments: [], numberOfPages: 0}
     }
 
-    async getUserDataById(userId: string): Promise<{userData: IProfile | null, isSubscribedFlag: boolean}> {
-        const test_user_id = 21326
-        const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/profile/${test_user_id}/`, {
+    async getUserDataById(userId: number): Promise<{userData: IProfile | null, isSubscribedFlag: boolean}> {
+        const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/profile/${userId}/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             }
         })
         if (res.ok) {
-            const userData = await res.json()
-            console.log(userData)
-            return {userData, isSubscribedFlag: false}
+            const { profile, is_subscribed_flag } = await res.json()
+            console.log({ profile, is_subscribed_flag })
+            return {userData: profile, isSubscribedFlag: is_subscribed_flag}
         }
         return {userData: null, isSubscribedFlag: false}
     }
 
     async subscribe(author: IProfile, subscriber: IProfile): Promise<boolean> {
-        return true
+        const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/profile/subscribe/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                author_id: author.id,
+                subscriber_id: subscriber.id
+            })
+        })
+        if (res.ok) {
+            const data = await res.json()
+            console.log(data)
+            return true
+        }
+        return false
     }
 
     async unsubscribe(author: IProfile, subscriber: IProfile): Promise<boolean> {
-        return true
+        const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/profile/unsubscribe/`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                author_id: author.id,
+                subscriber_id: subscriber.id
+            })
+        })
+        if (res.ok) {
+            const data = await res.json()
+            return data?.successful || false
+        }
+        return false
     }
 }
 
