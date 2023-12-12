@@ -4,7 +4,7 @@ import { authorizedRoutes } from "../routes/authorizedRoutes";
 import { unauthorizedRoutes } from "../routes/unauthorizedRoutes";
 import { RoutePaths } from "../utils/consts/routeConsts";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { selectCurrentUser, setCurrentUser } from "../store/slises/authorizationSlice";
+import { getCSRFToken, selectCurrentUser, setCurrentUser } from "../store/slises/authorizationSlice";
 import AuthorizedPage from "../pages/AuthorizedPage";
 
 const AppRouter: FC = () => {
@@ -13,6 +13,7 @@ const AppRouter: FC = () => {
 
     useEffect(() => {
         dispatch(setCurrentUser(JSON.parse(localStorage.getItem('user') || 'null')))
+        dispatch(getCSRFToken())
     }, [dispatch])
 
     return (

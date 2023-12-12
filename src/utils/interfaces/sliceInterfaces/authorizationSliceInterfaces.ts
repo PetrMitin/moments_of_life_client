@@ -15,5 +15,4 @@ export interface RegistrationData {
     username: string,
     password: string,
     avatar: File | null,
-    registration_date: Date,
 }

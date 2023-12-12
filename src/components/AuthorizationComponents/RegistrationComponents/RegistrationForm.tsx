@@ -38,7 +38,7 @@ const RegistrationForm: FC = () => {
         e.preventDefault()
         setIsFormValidated(true)
         if (validateForm()) {
-            dispatch(registration({email, username, avatar, password, registration_date: new Date()}))
+            dispatch(registration({ email, username, avatar, password }))
         }
     }
 

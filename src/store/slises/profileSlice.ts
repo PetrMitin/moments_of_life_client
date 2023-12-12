@@ -10,7 +10,6 @@ const initialState: ProfileState = {
     profileUser: null,
     userMoments: [],
     currentPage: 1,
-    numberOfPages: 0,
     status: 'idle',
     isSubscribed: false
 }
@@ -38,19 +37,16 @@ export const updateProfile = createAsyncThunk(
     }
 )
 
-export const getUserMoments = createAsyncThunk<{
-        moments: IMoment[],
-        numberOfPages: number,
-    }, IProfile | null, {state: RootState}>(
+export const getUserMoments = createAsyncThunk<IMoment[], IProfile | null, {state: RootState}>(
     'profile/getMoments',
     async (user, { getState }) => {
         const state = getState()
         user = user || state.authorization.currentUser
         if (user) {
-            const {moments, numberOfPages} = await profileActions.getUserMoments(state.profile.currentPage, user)
-            return {moments, numberOfPages}
+            const moments = await profileActions.getUserMoments(state.profile.currentPage, user)
+            return moments
         }
-        return {moments: [], numberOfPages: 0}
+        return []
     }
 )
 
@@ -118,12 +114,10 @@ const ProfileSlice = createSlice(
             })
             .addCase(getUserMoments.fulfilled, (state, action) => {
                 state.status = 'idle'
-                state.numberOfPages = action.payload.numberOfPages
-                state.userMoments = action.payload.moments
+                state.userMoments = action.payload
             })
             .addCase(getUserMoments.rejected, (state, action) => {
                 state.status = 'failed'
-                state.numberOfPages = 0
                 state.userMoments = []
             })
             .addCase(subscribe.fulfilled, (state, action) => {
@@ -139,8 +133,6 @@ const ProfileSlice = createSlice(
 )
 
 export const selectCurrentPage = (state: RootState) => state.profile.currentPage
-
-export const selectNumberOfPages = (state: RootState) => state.profile.numberOfPages
 
 export const selectUserMoments = (state: RootState) => state.profile.userMoments
 

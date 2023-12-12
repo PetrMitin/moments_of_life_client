@@ -31,9 +31,9 @@ export const mockUsers = (amount: number): IProfile[] => {
     const users: IProfile[] = []
     for (let i = 0; i < amount; ++i) {
         const newUser: IProfile = {
-            id: 171326,
+            id: 39,
             user: {
-                id: 181330,
+                id: 39,
                 email: `xmpl${i}@mail.ru`,
                 username: `username${i}`,
                 password: 'asdasd',

@@ -2,9 +2,7 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { AuthorizationState, LoginData, RegistrationData } from "../../utils/interfaces/sliceInterfaces/authorizationSliceInterfaces"
 import authorizationActions from "../../actions/authorizationActions"
 import { RootState } from "../store"
-import { useNavigate } from "react-router-dom"
-import { IProfile, ProfileUpdateData } from "../../utils/interfaces/userInterfaces"
-import profileActions from "../../actions/profileActions"
+import { IProfile } from "../../utils/interfaces/userInterfaces"
 
 const initialState: AuthorizationState = {
     currentUser: null,
@@ -32,6 +30,14 @@ export const logout = createAsyncThunk(
     async () => {
         const isSuccessfullLogOut = await authorizationActions.logoutUser()
         return isSuccessfullLogOut
+    }
+)
+
+export const getCSRFToken = createAsyncThunk(
+    'authorization/getCSRFToken',
+    async () => {
+        const isSuccessfull = await authorizationActions.getCSRFToken()
+        return isSuccessfull
     }
 )
 
@@ -75,6 +81,13 @@ const authorizationSlice = createSlice({
         .addCase(logout.rejected, (state, action) => {
             state.currentUser = null
             console.log(action.error)
+        })
+        .addCase(getCSRFToken.fulfilled, (state, action) => {
+            if (!action.payload) 
+                state.currentUser = null
+        })
+        .addCase(getCSRFToken.rejected, (state, action) => {
+            state.currentUser = null
         })
     },
 })
