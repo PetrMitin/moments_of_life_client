@@ -1,8 +1,7 @@
 import { FC, useEffect } from "react";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { authorizedRoutes } from "../routes/authorizedRoutes";
 import { unauthorizedRoutes } from "../routes/unauthorizedRoutes";
-import { RoutePaths } from "../utils/consts/routeConsts";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { getCSRFToken, selectCurrentUser, setCurrentUser } from "../store/slises/authorizationSlice";
 import AuthorizedPage from "../pages/AuthorizedPage";

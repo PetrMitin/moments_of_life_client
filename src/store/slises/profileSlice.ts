@@ -16,11 +16,16 @@ const initialState: ProfileState = {
 
 export const getUserData = createAsyncThunk<{user: IProfile | null, isSubscribed: boolean}, number | undefined, {state: RootState}>(
     'profile/getUser',
-    async (id, {getState}) => {
+    async (id, {getState, dispatch}) => {
         let user: IProfile | null = getState().authorization.currentUser
+        if (!id) id = user?.id
         let isSubscribed = false
         if (id) {
             const {userData, isSubscribedFlag} = await profileActions.getUserDataById(id)
+            if (user?.id === userData?.id && userData) {
+                dispatch(setCurrentUser(userData))
+            }
+            dispatch(getUserMoments(userData))
             user = userData
             isSubscribed = isSubscribedFlag
         }
@@ -32,7 +37,10 @@ export const updateProfile = createAsyncThunk(
     'profile/update',
     async (updateProfileData: ProfileUpdateData, { dispatch }) => {
         const updatedUser = await profileActions.updateProfileData(updateProfileData)
-        dispatch(setCurrentUser(updatedUser || undefined))
+        if (updatedUser) {
+            dispatch(setCurrentUser(updatedUser))
+            dispatch(setProfileUser(updatedUser))
+        }
         return updatedUser
     }
 )
@@ -85,6 +93,9 @@ const ProfileSlice = createSlice(
         reducers: {
             setCurrentPage: (state, action: PayloadAction<number>) => {
                 state.currentPage = action.payload
+            },
+            setProfileUser: (state, action: PayloadAction<IProfile>) => {
+                state.profileUser = action.payload
             },
             setUserMoments: (state, action: PayloadAction<IMoment[]>) => {
                 state.userMoments = action.payload
@@ -140,6 +151,6 @@ export const selectProfileUser = (state: RootState) => state.profile.profileUser
 
 export const selectIsSubscribed = (state: RootState) => state.profile.isSubscribed
 
-export const { setCurrentPage, setUserMoments } = ProfileSlice.actions
+export const { setCurrentPage, setUserMoments, setProfileUser } = ProfileSlice.actions
 
 export const profileReducer = ProfileSlice.reducer

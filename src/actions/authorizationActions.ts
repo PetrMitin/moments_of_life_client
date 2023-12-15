@@ -1,6 +1,7 @@
 import { LoginData, RegistrationData } from "../utils/interfaces/sliceInterfaces/authorizationSliceInterfaces";
 import { IProfile } from "../utils/interfaces/userInterfaces";
 import Cookies from 'js-cookie'
+import profileUtils from "../utils/utils/profileUtils";
 
 class AuthorizationActions {
     async loginWithEmail(loginData: LoginData): Promise<IProfile | null> {
@@ -14,7 +15,9 @@ class AuthorizationActions {
             credentials: 'include'
         })
         if (res.ok) {
+            console.log(res.headers)
             const user = await res.json()
+            profileUtils.augmentAvatarUrls([user])
             localStorage.setItem('user', JSON.stringify(user))
             return user
         }
@@ -32,6 +35,7 @@ class AuthorizationActions {
         const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/registration/`, {
             method: 'POST',
             headers: {
+                'Content-Type': 'application/json',
                 'X-CSRFToken': Cookies.get('csrftoken') || ''
             },
             body: registrationFormData,
@@ -39,6 +43,7 @@ class AuthorizationActions {
         })
         if (res.ok) {
             const user = await res.json()
+            profileUtils.augmentAvatarUrls([user])
             localStorage.setItem('user', JSON.stringify(user))
             return user
         }
@@ -55,6 +60,7 @@ class AuthorizationActions {
             credentials: 'include'
         })
         if (res.ok) {
+            localStorage.removeItem('user')
             return true
         }
         return false

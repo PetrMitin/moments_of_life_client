@@ -11,9 +11,7 @@ import SubscriptionControlButton from "./SubscriptionControlButton";
 
 const UserProfile: FC<{ user: IProfile, variant: 'owner' | 'guest' }> = ({ user, variant }) => {
     const userMoments = useAppSelector(selectUserMoments)
-    const dispatch = useAppDispatch()
-    console.log(user);
-    
+    const dispatch = useAppDispatch()    
 
     useEffect(() => {
         dispatch(getUserMoments(user))
@@ -36,7 +34,7 @@ const UserProfile: FC<{ user: IProfile, variant: 'owner' | 'guest' }> = ({ user,
                     <span>очков рейтинга</span>
                 </div>
                 <div className="profile-stat">
-                    {user.number_of_moments}<br/>
+                    {userMoments.length}<br/>
                     <span>моментов</span>
                 </div>
                 <div className="profile-stat">

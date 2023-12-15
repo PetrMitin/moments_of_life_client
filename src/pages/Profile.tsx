@@ -1,23 +1,27 @@
 import {FC, useEffect} from 'react'
 import UserProfile from '../components/ProfileComponents/UserProfile'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
-import { selectCurrentUser } from '../store/slises/authorizationSlice'
 import { useParams } from 'react-router-dom'
-import profileActions from '../actions/profileActions'
 import { getUserData, selectProfileUser } from '../store/slises/profileSlice'
+import { selectCurrentUser } from '../store/slises/authorizationSlice'
 
 const Profile: FC = () => {
-    let currentUser = useAppSelector(selectProfileUser)
+    let currentProfileUser = useAppSelector(selectProfileUser)
+    const currentAuthUser = useAppSelector(selectCurrentUser)
     const { id } = useParams()
     const dispatch = useAppDispatch()
    
     useEffect(() => {
-        dispatch(getUserData(parseInt(id || '')))
-    }, [dispatch])
+        const currentId = id ? parseInt(id) : currentAuthUser?.id
+        dispatch(getUserData(currentId))
+    }, [dispatch, id])
 
-        return currentUser ? (
+        return currentProfileUser ? (
                 <div className="profile-container">
-                    <UserProfile user={currentUser} variant={id ? 'guest' : 'owner'} />
+                    <UserProfile 
+                        user={currentProfileUser} 
+                        variant={parseInt(id || '') === currentAuthUser?.id ? 'owner' : 'guest'} 
+                    />
                 </div>
         ) : (<h1>Вы не авторизованы!</h1>)
 }

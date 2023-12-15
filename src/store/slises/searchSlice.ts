@@ -10,7 +10,10 @@ const initialState: SearchState = {
 }
 
 export const selectSearchMomentsResults = (state: RootState) => state.search.moments
+
 export const selectSearchUsersResults = (state: RootState) => state.search.users
+
+export const selectSearchStatus = (state: RootState) => state.search.status
 
 export const search = createAsyncThunk(
     'search/search',

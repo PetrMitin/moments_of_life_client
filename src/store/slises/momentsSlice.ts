@@ -1,9 +1,9 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { IMoment, IMomentLike, MomentCreationData, MomentLikeCreationData } from "../../utils/interfaces/momentsInterfaces"
+import { IMoment, MomentCreationData, MomentLikeCreationData } from "../../utils/interfaces/momentsInterfaces"
 import momentsActions from "../../actions/momentsActions"
 import { RootState } from "../store"
 import { MomentsState } from "../../utils/interfaces/sliceInterfaces/momentsSliceInterfaces"
-import { CommentCreationData, CommentLikeCreationData, IComment, ICommentLike } from "../../utils/interfaces/commentInterfaces"
+import { CommentCreationData, CommentLikeCreationData } from "../../utils/interfaces/commentInterfaces"
 import commentActions from "../../actions/commentActions"
 import { setUserMoments } from "./profileSlice"
 
@@ -19,10 +19,7 @@ export const getMoments = createAsyncThunk<IMoment[], void, {state: RootState}>(
     'moments/getMoments', 
     async (_, { getState }) => {
         const state = getState()
-        const user = state.authorization.currentUser
-        const momentsData = user 
-                            ? await momentsActions.getMomentsByPage(state.moments.currentPage, user) 
-                            : []
+        const momentsData = await momentsActions.getMomentsByPage(state.moments.currentPage)
         return momentsData
     }
 )
@@ -31,7 +28,9 @@ export const createMoment = createAsyncThunk<IMoment | null, MomentCreationData,
     'moments/create',
     async (momentCreationData: MomentCreationData, { dispatch, getState }) => {
         const newMoment = await momentsActions.createMoment(momentCreationData)
-        if (newMoment) dispatch(setUserMoments([newMoment, ...(getState().profile.userMoments)]))
+        if (newMoment) {
+            dispatch(setUserMoments([newMoment, ...(getState().profile.userMoments)]))
+        }
         return newMoment
     }
 )
@@ -104,7 +103,7 @@ const momentsSlice = createSlice({
         })
         .addCase(createMoment.fulfilled, (state, action) => {
             const moment = action.payload
-            if (moment) state.moments.push(moment)
+            console.log(moment)
         })
         .addCase(createMoment.rejected, (state, action) => {
             console.log(action.error)

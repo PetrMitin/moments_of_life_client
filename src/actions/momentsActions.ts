@@ -1,11 +1,9 @@
 import Cookies from "js-cookie";
 import { IMoment, IMomentLike, MomentCreationData, MomentLikeCreationData } from "../utils/interfaces/momentsInterfaces";
-import { IProfile } from "../utils/interfaces/userInterfaces";
+import momentUtils from "../utils/utils/momentUtils";
 
 class MomentsActions {
-    imagePaceholder = 'https://sun9-29.userapi.com/impg/6CysCByL1-ikop35wmyyvkLeTKX_OycFWwK45g/BRo5b3Z03lo.jpg?size=807x807&quality=96&sign=053efb9bf05728b9078c4db9fce33f5b&c_uniq_tag=Fx_jYLU2j0gsH6YG8Frd4gjcaVW0w40DF-owL9wYHFA&type=album'
-
-    async getMomentsByPage(page: number, user: IProfile): Promise<IMoment[]> {
+    async getMomentsByPage(page: number): Promise<IMoment[]> {
         const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/moments/?page=${page}`, {
             method: 'GET',
             headers: {
@@ -15,10 +13,7 @@ class MomentsActions {
         })
         if (res.ok) {
             const moments = await res.json()
-            moments.forEach((moment: IMoment) => {
-                moment.image = this.imagePaceholder
-                moment.author.avatar = this.imagePaceholder
-            })
+            momentUtils.augmentImageUrls(moments)
             return moments
         }
         return []
@@ -82,7 +77,8 @@ class MomentsActions {
         })
         if (res.ok) {
             const data = await res.json()
-            return null
+            console.log(data);
+            return data
         }
         return null
     }

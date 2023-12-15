@@ -7,8 +7,12 @@ import SearchIcon from "../Icons/SearchIcon";
 import HeartIcon from "../Icons/HeartIcon";
 import ProfileIcon from "../Icons/ProfileIcon";
 import { RoutePaths } from "../../../utils/consts/routeConsts";
+import { useAppSelector } from "../../../store/hooks";
+import { selectCurrentUser } from "../../../store/slises/authorizationSlice";
 
 const TopNavbar: FC = () => {
+    const currentUser = useAppSelector(selectCurrentUser)
+
     return (
         <Navbar sticky='top'>
             <Link to={RoutePaths.MOMENTS_ROUTE} className="nav-link">
@@ -21,7 +25,7 @@ const TopNavbar: FC = () => {
                 <Link to={RoutePaths.EVENTS_ROUTE} className="nav-link">
                     <HeartIcon />
                 </Link>
-                <Link to={RoutePaths.PROFILE_ROUTE} className="nav-link">
+                <Link to={`${RoutePaths.PROFILE_ROUTE}/${currentUser?.id || ''}`} className="nav-link">
                     <ProfileIcon />
                 </Link>
             </Nav>

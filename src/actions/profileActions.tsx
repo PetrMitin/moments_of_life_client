@@ -1,16 +1,24 @@
 import Cookies from "js-cookie"
 import { IMoment } from "../utils/interfaces/momentsInterfaces"
 import { IProfile, ProfileUpdateData } from "../utils/interfaces/userInterfaces"
+import momentUtils from "../utils/utils/momentUtils"
+import profileUtils from "../utils/utils/profileUtils"
 
 class ProfileActions {
     async updateProfileData(profileUpdateData: ProfileUpdateData): Promise<IProfile | null> {
+        const updateFormData: FormData = new FormData()
+        let key: keyof ProfileUpdateData
+        for (key in profileUpdateData) {
+            let val = profileUpdateData[key]
+            if (val) updateFormData.append(key, typeof val == 'number' ? JSON.stringify(val) : val)
+        }
+
         const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/profile/${profileUpdateData.id}/update/`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json',
                 'X-CSRFToken': Cookies.get('csrftoken') || ''
             },
-            body: JSON.stringify(profileUpdateData),
+            body: updateFormData,
             credentials: 'include'
         })
         if (res.ok) {
@@ -31,6 +39,7 @@ class ProfileActions {
         })
         if (res.ok) {
             const moments = await res.json()
+            momentUtils.augmentImageUrls(moments)
             return moments
         }
         return []
@@ -46,6 +55,7 @@ class ProfileActions {
         })
         if (res.ok) {
             const { profile, is_subscribed_flag } = await res.json()
+            profileUtils.augmentAvatarUrls([profile])
             return {userData: profile, isSubscribedFlag: is_subscribed_flag}
         }
         return {userData: null, isSubscribedFlag: false}
