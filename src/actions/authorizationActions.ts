@@ -35,7 +35,6 @@ class AuthorizationActions {
         const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/registration/`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 'X-CSRFToken': Cookies.get('csrftoken') || ''
             },
             body: registrationFormData,

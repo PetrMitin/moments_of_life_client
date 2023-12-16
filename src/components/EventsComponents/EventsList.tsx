@@ -9,11 +9,14 @@ const EventsList: FC = () => {
     const events = useAppSelector(selectEvents)
     const dispatch = useAppDispatch()
     const loadingStatus = useAppSelector(state => state.events.status)
+    console.log(events)
     const { ref, inView } = useInView({
         threshold: .01
     })
 
     useEffect(() => {
+        dispatch(setCurrentPage(1))
+        dispatch(setEvents([]))
         dispatch(getEvents())
     }, [dispatch])
 
