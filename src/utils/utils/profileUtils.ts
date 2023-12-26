@@ -7,6 +7,8 @@ class ProfileUtils {
         profiles.forEach(profile => {
             if (!profile.avatar)
                 profile.avatar = this.avatarPlaceholderUrl
+            else
+                profile.avatar = `${process.env.REACT_APP_SERVER_HOST}/media/${profile.avatar}`
         })
     }
 }

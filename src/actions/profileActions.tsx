@@ -30,7 +30,7 @@ class ProfileActions {
     }
 
     async getUserMoments(page: number, user: IProfile): Promise<IMoment[]> {
-        const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/profile/${user.id}/moments?page=${page}`, {
+        const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/profile/${user.id}/moments/?page=${page}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
