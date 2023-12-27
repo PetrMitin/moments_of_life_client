@@ -1,3 +1,4 @@
+import { Centrifuge } from "centrifuge";
 import { IEvent } from "../eventsInterfaces";
 
 export interface EventsState {

@@ -14,6 +14,7 @@
     "@types/react-dom": "^18.2.13",
     "@types/react-redux": "^7.1.27",
     "bootstrap": "^5.3.2",
+    "centrifuge": "^5.0.1",
     "js-cookie": "^3.0.5",
     "moment": "^2.29.4",
     "react": "^18.2.0",
